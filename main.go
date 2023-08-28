@@ -2,18 +2,20 @@ package main
 
 import (
 	"fmt"
+	"jotto/exclude"
 	"jotto/graph"
+	"jotto/util"
 	"os"
 )
 
-func check(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
 func main() {
 	alphabet := "abcdefghijklmnopqrstuvwxyz"
-	data, err := os.ReadFile("./words.txt")
+	inputPath := "./words2.txt"
+	outputPath := "./words_output.txt"
+
+	exclude.Exclude(alphabet, inputPath, outputPath)
+
+	data, err := os.ReadFile(outputPath)
 	G := graph.CreateGraph(alphabet)
 
 	for i := 0; i < len(data); i++ {
@@ -27,8 +29,7 @@ func main() {
 		G.ExtendWithAscii(data[i])
 
 	}
-	check(err)
+	util.Check(err)
 
-	fmt.Println(G.E)
-	fmt.Println(G.V)
+	fmt.Println("done")
 }
