@@ -10,8 +10,8 @@ import (
 
 func main() {
 	alphabet := "abcdefghijklmnopqrstuvwxyz"
-	inputPath := "./words2.txt"
-	outputPath := "./words_output.txt"
+	inputPath := "./words.txt"
+	outputPath := "./words2_output.txt"
 
 	exclude.Exclude(alphabet, inputPath, outputPath)
 
@@ -29,7 +29,8 @@ func main() {
 		G.ExtendWithAscii(data[i])
 
 	}
-	util.Check(err)
 
+	graph.MinVertex(G)
+	util.Check(err)
 	fmt.Println("done")
 }

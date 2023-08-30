@@ -11,13 +11,25 @@ type Graph struct {
 	Alphabet string
 }
 
+func (g *Graph) FirstIndex() int {
+	return len(g.Alphabet)
+}
+
 type Node struct {
-	indices []int
+	Indices []int
+}
+
+func (n *Node) BinaryRep() int32 {
+	b := int32(0)
+	for _, v := range n.Indices {
+		b |= (1 << v)
+	}
+	return b
 }
 
 func (n *Node) String() string {
 	output := ""
-	for _, x := range n.indices {
+	for _, x := range n.Indices {
 		o := fmt.Sprintf(" %d", x)
 		output += o
 	}
@@ -44,10 +56,9 @@ func (g *Graph) ExtendWithAscii(b byte) {
 		fallthrough
 	case b < 123:
 		letter := int(b) - 97
-		g.Current.indices = append(g.Current.indices, letter)
+		g.Current.Indices = append(g.Current.Indices, letter)
 		g.ConnectCurrentWith(letter)
 		return
-
 	default:
 		fmt.Println("hiiigh")
 	}
@@ -61,14 +72,14 @@ func CreateGraph(Alphabet string) *Graph {
 	G := Graph{V: []*Node{}, Alphabet: Alphabet}
 
 	for i, _ := range Alphabet {
-		G.V = append(G.V, &Node{indices: []int{i}})
+		G.V = append(G.V, &Node{Indices: []int{i}})
 	}
 	G.NewNode()
 	return &G
 }
 
 func (g *Graph) NewNode() {
-	n := &Node{indices: []int{}}
+	n := &Node{Indices: []int{}}
 	g.Current = n
 	g.V = append(g.V, g.Current)
 }
